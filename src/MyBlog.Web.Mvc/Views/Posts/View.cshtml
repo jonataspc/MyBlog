@@ -1,0 +1,27 @@
+﻿@model Post
+@inject IPostService PostService
+<div>
+
+    <h2>@Html.DisplayFor(model => model.Title)</h2>
+    <p>Por <a href="~/posts/author/@Html.DisplayFor(model => model.Author.Id)">@Html.DisplayFor(model => model.Author.User.FullName)</a> em @Html.DisplayFor(model => model.PublishDate) (@Html.DisplayFor(model => model.ViewCount) views)</p>
+
+    <p>@Html.DisplayFor(model => model.Content)</p>
+
+    @if (PostService.AllowEditOrDelete(Model.Author.UserId))
+    {
+        <div class="text-md-end">
+            <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model?.Id">Remover</a>
+        </div>
+    }
+
+    <hr />
+    @await Html.PartialAsync("_Comments")
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

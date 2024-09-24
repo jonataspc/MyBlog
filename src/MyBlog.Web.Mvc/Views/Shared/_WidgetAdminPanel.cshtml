@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MyBlog.Infra.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="card mb-4">
+        <div class="card-header">Painel administrativo (@User.Identity?.Name)</div> 
+        <div class="card-body">
+            <p class="card-text"><a href="~/posts/create">Novo post</a> </p>
+        </div>
+    </div>
+}

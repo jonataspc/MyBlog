@@ -1,0 +1,25 @@
+﻿@model CommentViewModel
+@inject IAppIdentityUser AppIdentityUser
+
+<div>
+    @if (AppIdentityUser.IsAuthenticated())
+    {
+        <form asp-action="AddComment" asp-controller="Comments">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span asp-validation-for="Content" class="text-danger"></span>
+
+            <div class="input-group mb-3 w-auto">
+                <input asp-for="Content" class="form-control " placeholder="Novo comentário" required />
+                <button type="submit" class="btn btn-primary btn-md">Adicionar</button>
+            </div>
+
+            <input type="hidden" asp-for="PostId" value="@ViewBag.PostId" />
+        </form>
+    }
+    else
+    {
+        <div class="alert alert-warning">Por favor  <a asp-area="Identity" asp-page="/Account/Login">autentique-se</a> para adicionar um comentário.</div> 
+    }
+
+</div>
+

@@ -1,0 +1,27 @@
+﻿@using MyBlog.Web.Mvc.Extensions
+@model Post
+@inject ICommentService CommentService
+
+<h5>Comentários</h5>
+
+@await Html.PartialAsync("_NewComment", new CommentViewModel() { Content = null!, PostId = Model.Id, }, new ViewDataDictionary(this.ViewData) { { "PostId", Model.Id } })
+
+<div>
+    @if (!Model.Comments.Any()){
+        <div class="alert alert-info">Sem comentários para este post.</div>
+    }
+
+    @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
+    {
+        <p>
+            @Html.DisplayFor(modelItem => item.Content) <i>(@Html.DisplayFor(modelItem => item.User.FullName) em @Html.DisplayFor(modelItem => item.CreatedAt))</i>
+
+            @if (CommentService.AllowDelete(item.Post.Author.UserId))
+            {
+                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" class="danger">Delete</a>
+            }
+            
+        </p>
+    }
+</div>
+

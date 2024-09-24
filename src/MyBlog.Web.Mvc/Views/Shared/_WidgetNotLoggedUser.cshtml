@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MyBlog.Infra.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+
+
+@if (!SignInManager.IsSignedIn(User))
+{
+    <div class="card mb-4">
+        <div class="card-header">Painel administrativo</div>
+        <div class="card-body">
+            <p class="card-text">Para adicionar um novo post, por favor <a asp-area="Identity" asp-page="/Account/Login">autentique-se</a> ou <a asp-area="Identity" asp-page="/Account/Register">registre-se</a> </p>
+        </div>
+    </div>
+}

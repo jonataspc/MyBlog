@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Post>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Nenhum post existente</div>
+}
+else
+{
+    <!-- Featured blog post-->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="small text-muted">@* January 1, 2023 *@ @Html.DisplayFor(modelItem => Model.First().PublishDate)</div>
+            <h2 class="card-title">@* Featured Post Title *@ @Html.DisplayFor(modelItem => Model.First().Title)</h2>
+            <p class="card-text">Por <a href="~/posts/author/@Html.DisplayFor(modelItem => Model.First().Author.Id)">@Html.DisplayFor(modelItem => Model.First().Author.User.FullName)</a> </p>
+            <p class="card-text">@Html.DisplayFor(modelItem => Model.First().Summary)</p>
+            <a class="btn btn-primary" asp-action="View" asp-route-id="@Model.First().Id">Ler mais →</a>
+        </div>
+    </div>
+}
+
+@{
+    string openDiv = " <div class='row'>";
+    string closeDiv = "</div>";
+
+    var posts = Model.Skip(1).ToList();
+}
+
+@for (int i = 0; i < posts.Count(); i++)
+{
+    var post = posts[i];
+
+    @if (i % 2 == 0)
+    {
+        @Html.Raw(openDiv)
+    }
+
+    <div class="col-sm">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="small text-muted">@Html.DisplayFor(modelItem => post.PublishDate)</div>
+                <h2 class="card-title h4">@Html.DisplayFor(modelItem => post.Title)</h2>
+                <p class="card-text">Por <a href="~/posts/author/@Html.DisplayFor(modelItem => post.Author.Id)">@Html.DisplayFor(modelItem => post.Author.User.FullName)</a> </p>
+                <p class="card-text">@Html.DisplayFor(modelItem => post.Summary)</p>
+                <a class="btn btn-primary" asp-action="View" asp-route-id="@post.Id">Ler mais →</a>
+            </div>
+        </div>
+    </div>
+
+    @if (i % 2 == 1 || i == posts.Count - 1)
+    {
+        @Html.Raw(closeDiv)
+    }
+
+
+}
