@@ -5,64 +5,24 @@
 
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">Search</div>
+        <div class="card-header">Procurar</div>
         <div class="card-body">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+            <form asp-action="Search" asp-controller="Posts" method="get">
+            <div class="input-group">                
+                    <input class="form-control" type="text" placeholder="Procurar por..." aria-label="Procurar por..." id="term" name="term" aria-describedby="button-search" pattern=".{3,}" title="Informe ao menos três caracteres" required />
+                    <button type="submit" class="btn btn-primary" id="button-search">Procurar</button>                
             </div>
+            </form>
         </div>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header">Mais lidos</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">Web Design</a></li>
-                        <li><a href="#!">HTML</a></li>
-                        <li><a href="#!">Freebies</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">JavaScript</a></li>
-                        <li><a href="#!">CSS</a></li>
-                        <li><a href="#!">Tutorials</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <cache expires-after="@TimeSpan.FromMinutes(1)">
+        @await Component.InvokeAsync("MostViewedPostsWidget")
+    </cache>
 
-    <!-- Categories widget-->
-    <div class="card mb-4">
-        <div class="card-header">Últimos autores</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">Web Design</a></li>
-                        <li><a href="#!">HTML</a></li>
-                        <li><a href="#!">Freebies</a></li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="#!">JavaScript</a></li>
-                        <li><a href="#!">CSS</a></li>
-                        <li><a href="#!">Tutorials</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <cache expires-after="@TimeSpan.FromMinutes(1)">
+        @await Component.InvokeAsync("LastAuthorsWidget")
+    </cache>
 
-   
-
-    
-    @await Html.PartialAsync("_WidgetNotLoggedUser")
-
- 
+    @await Html.PartialAsync("_WidgetNotLoggedUser") 
 </div>

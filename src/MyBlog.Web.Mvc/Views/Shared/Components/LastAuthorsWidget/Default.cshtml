@@ -1,0 +1,19 @@
+﻿@using Humanizer
+@model IEnumerable<Author>
+
+<div class="card mb-4">
+    <div class="card-header">Últimos autores</div>
+    <div class="card-body">
+
+        @foreach (var author in Model)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><a asp-action="Authors" asp-controller="Posts" asp-route-id="@author.Id">@author.User.FullName.Truncate(50)</a>, 
+                        <time class="timeago" datetime="@author.CreatedAt.ToString("s")">@author.CreatedAt</time>
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

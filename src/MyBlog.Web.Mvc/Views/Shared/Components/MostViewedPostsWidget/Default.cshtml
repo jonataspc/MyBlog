@@ -1,0 +1,17 @@
+﻿@using Humanizer
+@model IEnumerable<Post>
+
+<div class="card mb-4">
+    <div class="card-header">Mais lidos</div>
+    <div class="card-body">
+
+        @foreach (var post in Model)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><a asp-action="View" asp-controller="Posts" asp-route-id="@post.Id">@post.Title.Truncate(50)</a><br /> (@post.ViewCount view(s))</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
