@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Domain.Entities;
 using MyBlog.Domain.Services;
@@ -9,14 +10,13 @@ namespace MyBlog.Web.Mvc.Controllers
 {
     public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : Controller
     {
-        public async Task<IActionResult> Index([Range(1, int.MaxValue)]int? pageNumber)
+        public async Task<IActionResult> Index([Range(1, int.MaxValue)] int? pageNumber)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            // return View(await postService.GetAvailablePostsAsync());
             const int pageSize = 7;
             return View(await postService.GetAvailablePostsPaginatedAsync(pageNumber ?? 1, pageSize));
         }
@@ -54,25 +54,6 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(nameof(Index), posts);
         }
 
-        //// GET: Posts/Details/5
-        //public async Task<IActionResult> Details(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var post = await _context.Posts
-        //        .Include(p => p.Author)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (post == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(post);
-        //}
-
         public async Task<IActionResult> View(Guid? id)
         {
             if (id == null || !ModelState.IsValid)
@@ -92,6 +73,7 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(post);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             var model = new PostViewModel();
@@ -99,6 +81,7 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Summary,Content,PublishDate")] PostViewModel postViewModel)
         {
@@ -112,6 +95,7 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(postViewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null || !ModelState.IsValid)
@@ -130,11 +114,13 @@ namespace MyBlog.Web.Mvc.Controllers
             {
                 return Unauthorized();
             }
+
             ViewBag.Id = id;
             return View(post.Adapt<PostViewModel>());
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Title,Summary,Content,PublishDate,Id")] PostViewModel post)
         {
@@ -145,6 +131,13 @@ namespace MyBlog.Web.Mvc.Controllers
 
             if (ModelState.IsValid)
             {
+                var originalPost = await postService.GetByIdAsync(id);
+
+                if (!postService.AllowEditOrDelete(originalPost!.Author.UserId))
+                {
+                    return Unauthorized();
+                }
+
                 await postService.UpdateAsync(post.Adapt<Post>());
                 return RedirectToAction(nameof(View), new { id });
             }
@@ -152,6 +145,7 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(post);
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null || !ModelState.IsValid)
@@ -175,11 +169,19 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             if (ModelState.IsValid)
             {
+                var originalPost = await postService.GetByIdAsync(id);
+
+                if (!postService.AllowEditOrDelete(originalPost!.Author.UserId))
+                {
+                    return Unauthorized();
+                }
+
                 await postService.RemoveAsync(id, appIdentityUser.GetUserId());
             }
             return RedirectToAction(nameof(Index));
