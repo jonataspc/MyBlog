@@ -1,4 +1,8 @@
-﻿function confirmDelete(ev, customText) {
+﻿jQuery(document).ready(function () {
+    jQuery("time.timeago").timeago();
+});
+
+function confirmDelete(ev, customText) {
     ev.preventDefault();
     var urlToRedirect = ev.currentTarget.getAttribute('href');
 

@@ -14,11 +14,13 @@
     @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
     {
         <p>
-            @Html.DisplayFor(modelItem => item.Content) <i>(@Html.DisplayFor(modelItem => item.User.FullName) em @Html.DisplayFor(modelItem => item.CreatedAt))</i>
+            @Html.DisplayFor(modelItem => item.Content) <i>(@Html.DisplayFor(modelItem => item.User.FullName),
+                <time class="timeago" datetime="@item.CreatedAt.ToString("s")">@item.CreatedAt</time>)
+            </i>
 
             @if (CommentService.AllowDelete(item.Post.Author.UserId))
             {
-                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" class="danger">Delete</a>
+                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id" class="danger">Delete</a>
             }
             
         </p>

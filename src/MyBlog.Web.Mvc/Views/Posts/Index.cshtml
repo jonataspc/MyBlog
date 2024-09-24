@@ -1,4 +1,19 @@
-﻿@model IEnumerable<Post>
+﻿@using Humanizer
+@model IEnumerable<Post>
+
+
+@{
+    var message = ViewData["Message"] as string;
+}
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-info">
+        <p>@Html.Raw(message)</p>
+        <p><a asp-controller="Posts" asp-action="Index">@ViewData["MessageLink"]</a></p>
+    </div>
+}
+
 
 @if (!Model.Any())
 {
@@ -9,9 +24,11 @@ else
     <!-- Featured blog post-->
     <div class="card mb-4">
         <div class="card-body">
-            <div class="small text-muted">@* January 1, 2023 *@ @Html.DisplayFor(modelItem => Model.First().PublishDate)</div>
+            <div class="small text-muted">
+                <time class="timeago" datetime="@Model.First().PublishDate.ToString("s")">@Model.First().PublishDate</time>
+            </div>
             <h2 class="card-title">@* Featured Post Title *@ @Html.DisplayFor(modelItem => Model.First().Title)</h2>
-            <p class="card-text">Por <a href="~/posts/author/@Html.DisplayFor(modelItem => Model.First().Author.Id)">@Html.DisplayFor(modelItem => Model.First().Author.User.FullName)</a> </p>
+            <p class="card-text">Por <a asp-controller="Posts" asp-action="Authors" asp-route-id="@Model.First().Author.Id">@Html.DisplayFor(modelItem => Model.First().Author.User.FullName)</a> </p>
             <p class="card-text">@Html.DisplayFor(modelItem => Model.First().Summary)</p>
             <a class="btn btn-primary" asp-action="View" asp-route-id="@Model.First().Id">Ler mais →</a>
         </div>
@@ -37,9 +54,9 @@ else
     <div class="col-sm">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="small text-muted">@Html.DisplayFor(modelItem => post.PublishDate)</div>
+                <div class="small text-muted"><time class="timeago" datetime="@post.PublishDate.ToString("s")">@post.PublishDate</time></div>
                 <h2 class="card-title h4">@Html.DisplayFor(modelItem => post.Title)</h2>
-                <p class="card-text">Por <a href="~/posts/author/@Html.DisplayFor(modelItem => post.Author.Id)">@Html.DisplayFor(modelItem => post.Author.User.FullName)</a> </p>
+                <p class="card-text">Por <a asp-controller="Posts" asp-action="Authors" asp-route-id="@post.Author.Id">@Html.DisplayFor(modelItem => post.Author.User.FullName)</a> </p>
                 <p class="card-text">@Html.DisplayFor(modelItem => post.Summary)</p>
                 <a class="btn btn-primary" asp-action="View" asp-route-id="@post.Id">Ler mais →</a>
             </div>
@@ -52,4 +69,17 @@ else
     }
 
 
+}
+
+@if (Model is IPaginatedList<Post> pager)
+{
+    var prevDisabled = !pager.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !pager.HasNextPage ? "disabled" : "";
+
+    <div class="row text-center">
+        <div class="col-md-12 m-3">
+            <a asp-action="Index" asp-route-pageNumber="@(pager.PageIndex - 1)" class="btn btn-secondary @prevDisabled">Página anterior</a>
+            <a asp-action="Index" asp-route-pageNumber="@(pager.PageIndex + 1)" class="btn btn-secondary @nextDisabled">Próxima página</a>
+        </div>
+    </div>
 }

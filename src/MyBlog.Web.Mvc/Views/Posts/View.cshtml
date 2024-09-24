@@ -3,7 +3,8 @@
 <div>
 
     <h2>@Html.DisplayFor(model => model.Title)</h2>
-    <p>Por <a href="~/posts/author/@Html.DisplayFor(model => model.Author.Id)">@Html.DisplayFor(model => model.Author.User.FullName)</a> em @Html.DisplayFor(model => model.PublishDate) (@Html.DisplayFor(model => model.ViewCount) views)</p>
+    <p>Por <a asp-controller="Posts" asp-action="Authors" asp-route-id="@Model.Author.Id">@Html.DisplayFor(model => model.Author.User.FullName)</a>, <time class="timeago" datetime="@Model.PublishDate.ToString("s")">@Model.PublishDate</time>
+        (@Html.DisplayFor(model => model.ViewCount) views)</p>
 
     <p>@Html.DisplayFor(model => model.Content)</p>
 
