@@ -46,7 +46,7 @@ A estrutura do projeto é organizada da seguinte forma:
   - MyBlog.Infra.Identity: projeto contendo entidades relacionadas ao ASPNET Core Identity.
   - MyBlog.IoC: configuração de injeção de dependência da aplicação.
   - MyBlog.Web.Mvc: interface web da aplicação, utilizando o padrão MVC.
-  - MyBlog.Web.Mvc: API RESTful da aplicação.
+  - MyBlog.Web.Api: API RESTful da aplicação.
 	
 - README.md: Arquivo de Documentação do Projeto
 - FEEDBACK.md: Arquivo para Consolidação dos Feedbacks
