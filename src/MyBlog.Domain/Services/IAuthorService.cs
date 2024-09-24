@@ -7,5 +7,9 @@ namespace MyBlog.Domain.Services
         Task AddAsync(Author author);
 
         Task<Author?> GetByUserIdAsync(Guid userId);
+
+        Task<Author?> GetByIdAsync(Guid id);
+
+        Task<IEnumerable<Author>?> GetLastAuthorsWithPostsAsync();
     }
 }

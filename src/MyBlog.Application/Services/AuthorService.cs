@@ -12,9 +12,23 @@ namespace MyBlog.Application.Services
             await repository.UnitOfWork.CommitAsync();
         }
 
+        public async Task<Author?> GetByIdAsync(Guid id)
+        {
+            return await repository.GetAsync(id);
+        }
+
         public async Task<Author?> GetByUserIdAsync(Guid userId)
         {
             return await repository.FirstOrDefaultAsync(a => a.UserId == userId);
+        }
+
+        public async Task<IEnumerable<Author>?> GetLastAuthorsWithPostsAsync()
+        {
+            return await repository.GetAsync(predicate: a => a.Posts.Any(),
+                                             skip: 0,
+                                             take: 7,
+                                             orderBy: null,
+                                             orderByDescending: a => a.CreatedAt);
         }
     }
 }

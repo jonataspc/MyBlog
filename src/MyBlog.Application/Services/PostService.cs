@@ -38,9 +38,25 @@ namespace MyBlog.Application.Services
             return await postRepository.GetAvailablePostsAsync();
         }
 
+        public async Task<IPaginatedList<Post>> GetAvailablePostsPaginatedAsync(int pageIndex, int pageSize)
+        {
+            return await postRepository.GetAvailablePostsPaginatedAsync(pageIndex, pageSize);
+        }
+
         public async Task<Post?> GetByIdAsync(Guid id)
         {
             return await postRepository.GetPostByIdWithRelatedEntitiesAsync(id);
+        }
+
+        public async Task<IEnumerable<Post>> GetMostViewedPostsAsync()
+        {
+            const int numberOfPosts = 7;
+            return await postRepository.GetMostViewedPostsAsync(numberOfPosts);
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsByAuthorAsync(Guid authorId)
+        {
+            return await postRepository.GetPostsByAuthorAsync(authorId);
         }
 
         public async Task IncrementViewsAsync(Guid value)
@@ -64,6 +80,11 @@ namespace MyBlog.Application.Services
             existingPost.IsActive = false;
             postRepository.Update(existingPost);
             await postRepository.UnitOfWork.CommitAsync();
+        }
+
+        public async Task<IEnumerable<Post>> SearchByTermAsync(string term)
+        {
+            return await postRepository.SearchByTermAsync(term.Trim());
         }
 
         public async Task UpdateAsync(Post post)

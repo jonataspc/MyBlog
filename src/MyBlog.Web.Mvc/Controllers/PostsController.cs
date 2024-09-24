@@ -3,14 +3,55 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlog.Domain.Entities;
 using MyBlog.Domain.Services;
 using MyBlog.Web.Mvc.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
-    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService) : Controller
+    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : Controller
     {
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([Range(1, int.MaxValue)]int? pageNumber)
         {
-            return View(await postService.GetAvailablePostsAsync());
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            // return View(await postService.GetAvailablePostsAsync());
+            const int pageSize = 7;
+            return View(await postService.GetAvailablePostsPaginatedAsync(pageNumber ?? 1, pageSize));
+        }
+
+        public async Task<IActionResult> Authors(Guid? id)
+        {
+            if (id == null || !ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var author = await authorService.GetByIdAsync(id.Value);
+
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Message"] = $"Você está visualizando posts do autor <strong>{author.User.FullName}</strong>.";
+            ViewData["MessageLink"] = "Visualizar posts de todos os autores";
+            return View(nameof(Index), await postService.GetPostsByAuthorAsync(id.Value));
+        }
+
+        public async Task<IActionResult> Search(string term)
+        {
+            if (string.IsNullOrEmpty(term) || !ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var posts = await postService.SearchByTermAsync(term);
+
+            ViewData["Message"] = $"Existem <strong>{posts.Count()}</strong> post(s) que corresponde(m) à sua pesquisa.";
+            ViewData["MessageLink"] = "Visualizar todos os posts";
+            return View(nameof(Index), posts);
         }
 
         //// GET: Posts/Details/5
@@ -36,7 +77,7 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (id == null || !ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var post = await postService.GetByIdAsync(id.Value);
@@ -75,7 +116,7 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (id == null || !ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var post = await postService.GetByIdAsync(id.Value);
@@ -105,7 +146,7 @@ namespace MyBlog.Web.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 await postService.UpdateAsync(post.Adapt<Post>());
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(View), new { id });
             }
 
             return View(post);
@@ -115,7 +156,7 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (id == null || !ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var post = await postService.GetByIdAsync(id.Value);

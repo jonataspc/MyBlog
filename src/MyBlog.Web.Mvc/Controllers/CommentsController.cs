@@ -138,11 +138,11 @@ namespace MyBlog.Web.Mvc.Controllers
             return RedirectToAction("View", "Posts", new { id = comment.PostId });
         }
 
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id, Guid? postId)
         {
-            if (id == null || !ModelState.IsValid)
+            if (id == null || postId == null || !ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             var comment = await commentService.GetByIdAsync(id.Value);
@@ -157,16 +157,18 @@ namespace MyBlog.Web.Mvc.Controllers
                 return Unauthorized();
             }
 
+            ViewBag.PostId = postId;
             return View(comment);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, Guid postId)
         {
             if (ModelState.IsValid)
             {
                 await commentService.RemoveAsync(id, appIdentityUser.GetUserId());
+                return RedirectToAction(nameof(View), "Posts", new { id = postId });
             }
             return RedirectToAction("Index", "Posts");
         }
