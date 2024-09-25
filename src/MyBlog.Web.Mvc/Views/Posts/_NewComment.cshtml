@@ -18,8 +18,13 @@
     }
     else
     {
-        <div class="alert alert-warning">Por favor  <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">autentique-se</a> para adicionar um comentário.</div> 
+        <div class="alert alert-warning">Por favor  <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Context.Request.Path">autentique-se</a> para adicionar um comentário.</div>
     }
 
 </div>
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
