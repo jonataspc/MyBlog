@@ -63,7 +63,8 @@ namespace MyBlog.Infra.Data.Helpers
               .RuleFor(c => c.Content, f => f.Lorem.Sentence(f.Random.Number(100, 300)))
               .RuleFor(c => c.ViewCount, f => f.Random.Number(0, 1_000))
               .RuleFor(c => c.IsActive, f => true)
-              .RuleFor(c => c.PublishDate, f => f.Date.Recent())
+              .RuleFor(c => c.PublishDate, f => f.Date.Recent(3, DateTime.Now.AddDays(-2)))
+              .RuleFor(c => c.CreatedAt, f => f.Date.Recent(3, DateTime.Now.AddDays(-2)))
               .RuleFor(c => c.AuthorId, f => f.PickRandom(_authors).Id);
 
             _posts = postFaker.Generate(seedCount);
@@ -83,7 +84,7 @@ namespace MyBlog.Infra.Data.Helpers
             var commentFaker = new Faker<Comment>(_locale)
               .RuleFor(c => c.Content, f => f.Rant.Review())
               .RuleFor(c => c.IsActive, f => true)
-              .RuleFor(c => c.CreatedAt, f => f.Date.Recent())
+              .RuleFor(c => c.CreatedAt, f => f.Date.Recent(2))
               .RuleFor(c => c.PostId, f => f.PickRandom(_posts).Id)
               .RuleFor(c => c.UserId, f => f.PickRandom(_users).Id);
 
@@ -132,7 +133,7 @@ namespace MyBlog.Infra.Data.Helpers
             var seedCount = _users!.Count;
 
             var authorFaker = new Faker<Author>(_locale)
-              .RuleFor(c => c.CreatedAt, f => f.Date.Recent())
+              .RuleFor(c => c.CreatedAt, f => f.Date.Recent(4, DateTime.Now.AddDays(-3)))
               ;
 
             _authors = authorFaker.Generate(seedCount);
