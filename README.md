@@ -62,6 +62,7 @@ A estrutura do projeto é organizada da seguinte forma:
 - **Documentação da API:** Documentação automática dos endpoints da API utilizando Swagger.
 
 ## **6. Como Executar o Projeto**
+## **6. Como Executar o Projeto**
 
 ### **Pré-requisitos**
 
@@ -94,6 +95,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 - **JWT para API:** As chaves de configuração do JWT estão no `\src\MyBlog.Web.Mvc\appsettings.json`.
 - **Migrações do Banco de Dados:** As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar devido a configuração do Seed de dados.
+- **Credenciais do usuário admin criado por padrão:** E-mail: `admin@admin.com`, senha: `Admin123!`
 
 ## **8. Documentação da API**
 
