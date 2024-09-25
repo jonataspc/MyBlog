@@ -14,12 +14,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <textarea asp-for="Summary" class="form-control"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
-                <input asp-for="Content" class="form-control" />
+                <textarea asp-for="Content" class="form-control" rows="7"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -33,7 +33,7 @@
             <div class="form-group text-md-center">
                 <br />
                 <input type="submit" value="Salvar" class="btn btn-primary" />
-                <a class="btn btn-secondary" href="javascript:history.back()">Cancelar</a>
+                <a class="btn btn-secondary" id="cancelButton" href="#">Cancelar</a>
             </div>
 
 
@@ -43,6 +43,12 @@
 
 @section Scripts {
     @{
+        <script>
+            document.getElementById("cancelButton").addEventListener("click", function () {
+                history.back();
+            });
+        </script>
+
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

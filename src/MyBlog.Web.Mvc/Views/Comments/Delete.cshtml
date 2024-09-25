@@ -30,8 +30,15 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" name="PostId" value="@ViewBag.PostId" />
             <input type="submit" value="Remover" class="btn btn-danger" />
-            <a class="btn btn-secondary" href="javascript:history.back()">Cancelar</a>
+            <a class="btn btn-secondary" id="cancelButton" href="#">Cancelar</a>
         </form>
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        document.getElementById("cancelButton").addEventListener("click", function() {
+            history.back();
+        });
+    </script>
+}

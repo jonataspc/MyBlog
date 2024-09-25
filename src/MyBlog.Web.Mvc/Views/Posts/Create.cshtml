@@ -30,12 +30,18 @@
             <div class="form-group text-md-center">
                 <br />
                 <input type="submit" value="Cadastrar" class="btn btn-primary" />
-                <a class="btn btn-secondary" href="javascript:history.back()">Cancelar</a>
+                <a class="btn btn-secondary" id="cancelButton" href="#">Cancelar</a>
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
+    <script>
+        document.getElementById("cancelButton").addEventListener("click", function () {
+            history.back();
+        });
+    </script>
+
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
