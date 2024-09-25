@@ -83,12 +83,12 @@ A estrutura do projeto é organizada da seguinte forma:
 3. **Executar a Aplicação MVC:**
    - `cd src\MyBlog.Web.Mvc`
    - `dotnet run`
-   - Acesse a aplicação em: https://localhost:7160
+   - Acesse a aplicação em: http://localhost:5213
 
 4. **Executar a API:**
    - `cd src\MyBlog.Web.Api`
    - `dotnet run`
-   - Acesse a documentação da API em: https://localhost:7161/swagger <!-- TODO: Porta da API -->
+   - Acesse a documentação da API em: http://localhost:7161/swagger <!-- TODO: Porta da API -->
 
 ## **7. Instruções de Configuração**
 
@@ -99,7 +99,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 A documentação da API está disponível através do Swagger. Após iniciar a API, acesse a documentação em:
 
-https://localhost:7161/swagger <!-- TODO: Porta da API -->
+http://localhost:7161/swagger <!-- TODO: Porta da API -->
 
 ## **9. Avaliação**
 
