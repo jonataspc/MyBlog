@@ -13,6 +13,7 @@
         string? GetRemoteIpAddress();
 
         string? GetLocalIpAddress();
+
         bool IsAdmin();
     }
 }

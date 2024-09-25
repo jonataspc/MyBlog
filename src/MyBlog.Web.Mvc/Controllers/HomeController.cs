@@ -6,7 +6,6 @@ namespace MyBlog.Web.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Posts");

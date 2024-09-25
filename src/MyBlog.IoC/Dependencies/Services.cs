@@ -17,7 +17,6 @@ namespace MyBlog.IoC.Dependencies
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<ICommentService, CommentService>();
 
-
             // Bus
             services.AddSingleton<IGenericMessageBusPublisher, GenericMessageBusPublisherService>();
 
