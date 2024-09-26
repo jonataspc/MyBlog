@@ -65,7 +65,7 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Por favor preencha o {0}")]
             [EmailAddress]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
@@ -74,7 +74,7 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Por favor preencha a {0}")]
             [Display(Name = "Senha")]
             [DataType(DataType.Password)]
             public string Password { get; set; }

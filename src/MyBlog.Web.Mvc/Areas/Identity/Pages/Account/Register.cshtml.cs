@@ -72,7 +72,7 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-            [Required]
+            [Required(ErrorMessage = "Por favor preencha o {0}")]
             [Display(Name = "Nome completo")]
             public string FullName { get; set; }
 
@@ -80,8 +80,8 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Por favor preencha o {0}")]
+            [EmailAddress(ErrorMessage = "Por favor preencha o {0} em formato correto")]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
@@ -89,8 +89,8 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Por favor preencha a {0}")]
+            [StringLength(100, ErrorMessage = "A {0} precisa conter no mínimo {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Senha")]
             public string Password { get; set; }
@@ -101,7 +101,7 @@ namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirmação de senha")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "A senha e a confirmação não são iguais")]
             public string ConfirmPassword { get; set; }
         }
 
