@@ -9,10 +9,12 @@ using System.ComponentModel.DataAnnotations;
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("posts")]
+    [Authorize]
     public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : Controller
     {
 
         [Route("{pageNumber:int?}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Index([Range(1, int.MaxValue)] int? pageNumber)
         {
             if (!ModelState.IsValid)
@@ -25,6 +27,7 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [Route("authors/{id:guid}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Authors(Guid id)
         {
             if (!ModelState.IsValid)
@@ -45,6 +48,7 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [Route("search")]
+        [AllowAnonymous]
         public async Task<IActionResult> Search([FromQuery] string term)
         {
             if (string.IsNullOrEmpty(term) || !ModelState.IsValid)
@@ -60,6 +64,7 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [Route("{id:guid}")]
+        [AllowAnonymous]
         public async Task<IActionResult> View(Guid id)
         {
             if (!ModelState.IsValid)
@@ -79,7 +84,6 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(post);
         }
 
-        [Authorize]
         [Route("novo")]
         public IActionResult Create()
         {
@@ -88,7 +92,6 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [HttpPost("novo")]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Summary,Content,PublishDate")] PostViewModel postViewModel)
         {
@@ -102,7 +105,6 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(postViewModel);
         }
 
-        [Authorize]
         [Route("editar/{id:guid}")]
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -128,7 +130,6 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [HttpPost("editar/{id:guid}")]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Title,Summary,Content,PublishDate,Id")] PostViewModel post)
         {
@@ -153,7 +154,6 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(post);
         }
 
-        [Authorize]
         [Route("excluir/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -178,7 +178,6 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [HttpPost("excluir/{id:guid}"), ActionName("Delete")]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
