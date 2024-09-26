@@ -7,8 +7,7 @@ namespace MyBlog.Web.Mvc.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var posts = await postService.GetMostViewedPostsAsync();
-            return View(posts);
+            return View(await postService.GetMostViewedPostsAsync());
         }
     }
 }

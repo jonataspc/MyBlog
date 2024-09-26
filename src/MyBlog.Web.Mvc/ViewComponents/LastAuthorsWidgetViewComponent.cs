@@ -7,8 +7,7 @@ namespace MyBlog.Web.Mvc.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var posts = await authorService.GetLastAuthorsWithPostsAsync();
-            return View(posts);
+            return View(await authorService.GetLastAuthorsWithPostsAsync());
         }
     }
 }
