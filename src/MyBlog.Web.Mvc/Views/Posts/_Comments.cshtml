@@ -20,7 +20,7 @@
 
             @if (CommentService.AllowDelete(item.Post.Author.UserId))
             {
-                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id" class="danger">Delete</a>
+                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id" class="text-danger">Excluir</a>
             }
             
         </p>

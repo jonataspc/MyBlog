@@ -4,18 +4,22 @@ using System.Diagnostics;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
+        [Route("")]
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Posts");
         }
 
+        [Route("politica-de-privacidade")]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [Route("error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -8,8 +8,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
+    [Route("posts")]
     public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : Controller
     {
+
+        [Route("{pageNumber:int?}")]
         public async Task<IActionResult> Index([Range(1, int.MaxValue)] int? pageNumber)
         {
             if (!ModelState.IsValid)
@@ -21,14 +24,15 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(await postService.GetAvailablePostsPaginatedAsync(pageNumber ?? 1, pageSize));
         }
 
-        public async Task<IActionResult> Authors(Guid? id)
+        [Route("authors/{id:guid}")]
+        public async Task<IActionResult> Authors(Guid id)
         {
-            if (id == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var author = await authorService.GetByIdAsync(id.Value);
+            var author = await authorService.GetByIdAsync(id);
 
             if (author == null)
             {
@@ -37,10 +41,11 @@ namespace MyBlog.Web.Mvc.Controllers
 
             ViewData["Message"] = $"Você está visualizando posts do autor <strong>{author.User.FullName}</strong>.";
             ViewData["MessageLink"] = "Visualizar posts de todos os autores";
-            return View(nameof(Index), await postService.GetPostsByAuthorAsync(id.Value));
+            return View(nameof(Index), await postService.GetPostsByAuthorAsync(id));
         }
 
-        public async Task<IActionResult> Search(string term)
+        [Route("search")]
+        public async Task<IActionResult> Search([FromQuery] string term)
         {
             if (string.IsNullOrEmpty(term) || !ModelState.IsValid)
             {
@@ -54,33 +59,35 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(nameof(Index), posts);
         }
 
-        public async Task<IActionResult> View(Guid? id)
+        [Route("{id:guid}")]
+        public async Task<IActionResult> View(Guid id)
         {
-            if (id == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var post = await postService.GetByIdAsync(id.Value);
+            var post = await postService.GetByIdAsync(id);
 
             if (post == null)
             {
                 return NotFound();
             }
 
-            await postService.IncrementViewsAsync(id.Value);
+            await postService.IncrementViewsAsync(id);
 
             return View(post);
         }
 
         [Authorize]
+        [Route("novo")]
         public IActionResult Create()
         {
             var model = new PostViewModel();
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("novo")]
         [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Summary,Content,PublishDate")] PostViewModel postViewModel)
@@ -96,14 +103,15 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Edit(Guid? id)
+        [Route("editar/{id:guid}")]
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var post = await postService.GetByIdAsync(id.Value);
+            var post = await postService.GetByIdAsync(id);
 
             if (post == null)
             {
@@ -119,7 +127,7 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(post.Adapt<PostViewModel>());
         }
 
-        [HttpPost]
+        [HttpPost("editar/{id:guid}")]
         [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("Title,Summary,Content,PublishDate,Id")] PostViewModel post)
@@ -146,14 +154,15 @@ namespace MyBlog.Web.Mvc.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Delete(Guid? id)
+        [Route("excluir/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == null || !ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            var post = await postService.GetByIdAsync(id.Value);
+            var post = await postService.GetByIdAsync(id);
 
             if (post == null)
             {
@@ -168,7 +177,7 @@ namespace MyBlog.Web.Mvc.Controllers
             return View(nameof(Delete), post);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("excluir/{id:guid}"), ActionName("Delete")]
         [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
