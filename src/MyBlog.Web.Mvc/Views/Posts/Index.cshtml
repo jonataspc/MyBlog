@@ -27,7 +27,7 @@ else
             <div class="small text-muted">
                 <time class="timeago" datetime="@Model.First().PublishDate.ToString("s")">@Model.First().PublishDate</time>
             </div>
-            <h2 class="card-title">@* Featured Post Title *@ @Html.DisplayFor(modelItem => Model.First().Title)</h2>
+            <h2 class="card-title">@Html.DisplayFor(modelItem => Model.First().Title)</h2>
             <p class="card-text">Por <a asp-controller="Posts" asp-action="Authors" asp-route-id="@Model.First().Author.Id">@Html.DisplayFor(modelItem => Model.First().Author.User.FullName)</a> </p>
             <p class="card-text">@Html.DisplayFor(modelItem => Model.First().Summary)</p>
             <a class="btn btn-primary" asp-action="View" asp-route-id="@Model.First().Id">Ler mais →</a>
