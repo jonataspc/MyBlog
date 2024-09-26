@@ -7,10 +7,10 @@ using MyBlog.Web.Mvc.Models;
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("comentarios")]
+    [Authorize]
     public class CommentsController(IAppIdentityUser appIdentityUser, ICommentService commentService) : Controller
     {
         [HttpPost("novo")]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddComment([Bind("Content,PostId")] CommentViewModel comment)
         {
@@ -32,7 +32,6 @@ namespace MyBlog.Web.Mvc.Controllers
             return RedirectToAction("View", "Posts", new { id = comment.PostId });
         }
 
-        [Authorize]
         [Route("excluir/{postId:guid}/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id, Guid postId)
         {
@@ -59,7 +58,6 @@ namespace MyBlog.Web.Mvc.Controllers
 
         [HttpPost("excluir/{postId:guid}/{id:guid}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(Guid id, Guid postId)
         {
             if (ModelState.IsValid)
