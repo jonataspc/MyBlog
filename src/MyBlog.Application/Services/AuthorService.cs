@@ -24,7 +24,7 @@ namespace MyBlog.Application.Services
 
         public async Task<IEnumerable<Author>?> GetLastAuthorsWithPostsAsync()
         {
-            return await repository.GetAsync(predicate: a => a.Posts.Any(),
+            return await repository.GetAsync(predicate: a => a.Posts.Any(p => p.PublishDate <= DateTime.Now),
                                              skip: 0,
                                              take: 7,
                                              orderBy: null,
