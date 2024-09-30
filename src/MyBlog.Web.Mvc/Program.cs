@@ -1,11 +1,8 @@
 using MyBlog.Infra.Data.Extensions;
 using MyBlog.IoC;
-using MyBlog.Web.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.RegisterDependencies(builder.Configuration);
-builder.Services.RegisterLocalServiceDependencies();
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
@@ -30,5 +27,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 await app.UseDbMigrationHelperAsync();
-
 await app.RunAsync();

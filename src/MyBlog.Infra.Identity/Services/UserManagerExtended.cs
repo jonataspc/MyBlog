@@ -4,8 +4,9 @@ using Microsoft.Extensions.Options;
 using MyBlog.Domain.Bus;
 using MyBlog.Domain.Entities;
 using MyBlog.Domain.Models.Events;
+using MyBlog.Infra.Identity.Models;
 
-namespace MyBlog.Infra.Identity
+namespace MyBlog.Infra.Identity.Services
 {
     public class UserManagerExtended : UserManager<ApplicationUser>
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBlog.Domain.Entities;
 using MyBlog.Infra.Data.Context;
-using MyBlog.Infra.Identity;
+using MyBlog.Infra.Identity.Models;
 
 namespace MyBlog.Infra.Data.Helpers
 {

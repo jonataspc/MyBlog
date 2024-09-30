@@ -1,9 +1,10 @@
 ﻿using IdentityModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.JsonWebTokens;
 using MyBlog.Domain.Services;
 using System.Security.Claims;
 
-namespace MyBlog.Web.Mvc.Services.Identity
+namespace MyBlog.Infra.Identity.Services
 {
     public class AppIdentityUser : IAppIdentityUser
     {

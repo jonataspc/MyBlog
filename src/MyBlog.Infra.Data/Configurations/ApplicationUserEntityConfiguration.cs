@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MyBlog.Infra.Identity;
+using MyBlog.Infra.Identity.Models;
 
 namespace MyBlog.Infra.Data.Configurations
 {

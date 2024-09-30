@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using MyBlog.Infra.Identity;
+using MyBlog.Infra.Identity.Models;
 
 namespace MyBlog.Web.Mvc.Areas.Identity.Pages.Account
 {

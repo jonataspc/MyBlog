@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyBlog.Domain.Services;
 using MyBlog.Infra.Data.Context;
-using MyBlog.Infra.Identity;
+using MyBlog.Infra.Identity.Models;
+using MyBlog.Infra.Identity.Services;
 
 namespace MyBlog.IoC.Dependencies
 {
@@ -25,6 +27,9 @@ namespace MyBlog.IoC.Dependencies
                 .AddRoles<IdentityRole>()
                 .AddUserManager<UserManagerExtended>()
                 .AddEntityFrameworkStores<MyBlogDbContext>();
+
+
+            services.AddScoped<IAppIdentityUser, AppIdentityUser>();
         }
     }
 }

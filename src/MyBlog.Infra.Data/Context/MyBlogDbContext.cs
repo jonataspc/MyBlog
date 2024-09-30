@@ -6,7 +6,7 @@ using MyBlog.Domain.Entities;
 using MyBlog.Domain.Entities.Common;
 using MyBlog.Domain.Exceptions;
 using MyBlog.Infra.Data.Extensions;
-using MyBlog.Infra.Identity;
+using MyBlog.Infra.Identity.Models;
 using System.Reflection;
 
 namespace MyBlog.Infra.Data.Context
