@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("posts")]
-    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : AppControllerBase
+    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService, IConfiguration configuration) : AppControllerBase
     {
 
         [Route("{pageNumber:int?}")]
@@ -22,7 +22,7 @@ namespace MyBlog.Web.Mvc.Controllers
                 return BadRequest();
             }
 
-            const int pageSize = 7;
+            int pageSize = configuration.GetValue<int>("Posts:PageSize");
             return View(await postService.GetAvailablePostsPaginatedAsync(pageNumber ?? 1, pageSize));
         }
 
