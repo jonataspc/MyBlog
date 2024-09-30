@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MyBlog.Domain.Entities;
 using MyBlog.Domain.Services;
+using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("comentarios")]
-    [Authorize]
-    public class CommentsController(IAppIdentityUser appIdentityUser, ICommentService commentService) : Controller
+    public class CommentsController(IAppIdentityUser appIdentityUser, ICommentService commentService) : AppControllerBase
     {
         [HttpPost("novo")]
         [ValidateAntiForgeryToken]

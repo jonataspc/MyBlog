@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBlog.Domain.Entities;
 using MyBlog.Domain.Services;
+using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("posts")]
-    [Authorize]
-    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : Controller
+    public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService) : AppControllerBase
     {
 
         [Route("{pageNumber:int?}")]

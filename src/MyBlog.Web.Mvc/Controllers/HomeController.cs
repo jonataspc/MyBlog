@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
 using System.Diagnostics;
 
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("")]
-    public class HomeController : Controller
+    [AllowAnonymous]
+    public class HomeController : AppControllerBase
     {
         [Route("")]
         public IActionResult Index()
