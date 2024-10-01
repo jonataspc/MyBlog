@@ -1,6 +1,6 @@
 ﻿namespace MyBlog.Web.Api.Models
 {
-    public record CommentViewModel(
+    public record CommentResponseViewModel(
         Guid Id, 
         string Content, 
         string UserName,

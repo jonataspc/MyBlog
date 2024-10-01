@@ -1,6 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using MyBlog.Web.Api.Models;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -11,8 +10,7 @@ namespace MyBlog.Web.Api.Services
     {
         public string CreateToken(WebApiUser user)
         {
-            var token = CreateJwtToken(CreateClaims(user), CreateSigningCredentials()
-            );
+            var token = CreateJwtToken(CreateClaims(user), CreateSigningCredentials());
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(token);
         }
@@ -36,6 +34,12 @@ namespace MyBlog.Web.Api.Services
                     new(ClaimTypes.NameIdentifier, user.Username),
                     new(ClaimTypes.Name, user.Username)
                 };
+
+            foreach (var userRole in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
             return claims;
         }
 

@@ -27,7 +27,9 @@ namespace MyBlog.Web.Api.Services
                 return null;
             }
 
-            return new WebApiUser(user.UserName!, Guid.Parse(user.Id));
+            var userRoles = await signInManager.UserManager.GetRolesAsync(user!);
+
+            return new WebApiUser(user.UserName!, Guid.Parse(user.Id), userRoles);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MyBlog.Web.Api.Models
 {
-    public record NewCommentViewModel(
+    public record CommentRequestViewModel(
         [Required]
         [MaxLength(1024)]
         string Content);

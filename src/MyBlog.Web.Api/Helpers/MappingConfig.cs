@@ -8,11 +8,11 @@ namespace MyBlog.Web.Api.Helpers
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Post, PostViewModel>()
+            config.NewConfig<Post, PostResponseViewModel>()
                 .Map(dest => dest, src => src)
                 .Map(dest => dest.AuthorName, src => src.Author.User.FullName);
 
-            config.NewConfig<Comment, CommentViewModel>()
+            config.NewConfig<Comment, CommentResponseViewModel>()
                 .Map(dest => dest, src => src)
                 .Map(dest => dest.UserName, src => src.User.FullName);
         }

@@ -1,6 +1,6 @@
 ﻿namespace MyBlog.Web.Api.Models
 {
-    public record PostViewModel(
+    public record PostResponseViewModel(
         Guid Id,
         string Title, 
         string Summary, 
