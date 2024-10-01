@@ -38,7 +38,7 @@ namespace MyBlog.Infra.Data.Repositories
         public async Task<Post?> GetPostByIdWithRelatedEntitiesAsync(Guid id)
         {
             return await _dbContext.Posts
-                .Include(p => p.Comments.Where(c => c.IsActive))
+                .Include(p => p.Comments.Where(c => c.IsActive).OrderByDescending(c => c.CreatedAt))
                 .ThenInclude(a => a.User)
                 .Include(p => p.Author)
                 .ThenInclude(a => a.User)
