@@ -2,12 +2,12 @@
 {
     public interface IPaginatedList<T> : IEnumerable<T>
     {
-        public int PageIndex { get; /*private set;*/ }
+        public int PageIndex { get; }
 
-        public int TotalPages { get; /*private set;*/ }
+        public int TotalPages { get; }
 
-        public bool HasPreviousPage { get; /*private set;*/ }
+        public bool HasPreviousPage { get; }
 
-        public bool HasNextPage { get; /*private set;*/ }
+        public bool HasNextPage { get; }
     }
 }
