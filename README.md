@@ -1,9 +1,11 @@
-# **MyBlog - AplicaÁ„o de Blog Simples com MVC e API RESTful**
+[![.NET](https://github.com/jonataspc/MyBlog/actions/workflows/dotnet.yml/badge.svg)](https://github.com/jonataspc/MyBlog/actions/workflows/dotnet.yml)
 
-## **1. ApresentaÁ„o**
+# **MyBlog - Aplica√ß√£o de Blog Simples com MVC e API RESTful**
 
-Bem-vindo ao repositÛrio do projeto **MyBlog**. Este projeto È uma entrega do MBA DevXpert Full Stack .NET e È referente ao mÛdulo **IntroduÁ„o ao Desenvolvimento ASP.NET Core**.
-O objetivo principal desenvolver uma aplicaÁ„o de blog que permite aos usu·rios criar, editar, visualizar e excluir posts e coment·rios, tanto atravÈs de uma interface web utilizando MVC quanto atravÈs de uma API RESTful.
+## **1. Apresenta√ß√£o**
+
+Bem-vindo ao reposit√≥rio do projeto **MyBlog**. Este projeto √© uma entrega do MBA DevXpert Full Stack .NET e √© referente ao m√≥dulo **Introdu√ß√£o ao Desenvolvimento ASP.NET Core**.
+O objetivo principal desenvolver uma aplica√ß√£o de blog que permite aos usu√°rios criar, editar, visualizar e excluir posts e coment√°rios, tanto atrav√©s de uma interface web utilizando MVC quanto atrav√©s de uma API RESTful.
 Descreva livremente mais detalhes do seu projeto aqui.
 
 ### **Autor(es)**
@@ -14,97 +16,97 @@ Descreva livremente mais detalhes do seu projeto aqui.
 
 O projeto consiste em:
 
-- **AplicaÁ„o MVC:** Interface web para interaÁ„o com o blog.
-- **API RESTful:** ExposiÁ„o dos recursos do blog para integraÁ„o com outras aplicaÁıes ou desenvolvimento de front-ends alternativos.
-- **AutenticaÁ„o e AutorizaÁ„o:** ImplementaÁ„o de controle de acesso, diferenciando administradores e usu·rios comuns.
-- **Acesso a Dados:** ImplementaÁ„o de acesso ao banco de dados atravÈs de ORM.
+- **Aplica√ß√£o MVC:** Interface web para intera√ß√£o com o blog.
+- **API RESTful:** Exposi√ß√£o dos recursos do blog para integra√ß√£o com outras aplica√ß√µes ou desenvolvimento de front-ends alternativos.
+- **Autentica√ß√£o e Autoriza√ß√£o:** Implementa√ß√£o de controle de acesso, diferenciando administradores e usu√°rios comuns.
+- **Acesso a Dados:** Implementa√ß√£o de acesso ao banco de dados atrav√©s de ORM.
 
 ## **3. Tecnologias Utilizadas**
 
-- **Linguagem de ProgramaÁ„o:** C#
+- **Linguagem de Programa√ß√£o:** C#
 - **Frameworks:**
   - ASP.NET Core MVC
   - ASP.NET Core Web API
   - Entity Framework Core
 - **Banco de Dados:** SQL Server
-- **AutenticaÁ„o e AutorizaÁ„o:**
+- **Autentica√ß√£o e Autoriza√ß√£o:**
   - ASP.NET Core Identity
-  - JWT (JSON Web Token) para autenticaÁ„o na API
+  - JWT (JSON Web Token) para autentica√ß√£o na API
 - **Front-end:**
   - Razor Pages/Views
-  - HTML/CSS para estilizaÁ„o b·sica
-- **DocumentaÁ„o da API:** Swagger
+  - HTML/CSS para estiliza√ß√£o b√°sica
+- **Documenta√ß√£o da API:** Swagger
 
 ## **4. Estrutura do Projeto**
 
-A estrutura do projeto È organizada da seguinte forma:
+A estrutura do projeto √© organizada da seguinte forma:
 
 - src/
-  - MyBlog.Application: projeto de aplicaÁ„o contendo regras de negÛcio.
-  - MyBlog.Domain: camada central contendo as entidades, modelos de domÌnio da aplicaÁ„o e interfaces.
-  - MyBlog.Infra.Data: projeto de infraestrutura e persistÍncia de dados usando EF Core e SQL Server.
+  - MyBlog.Application: projeto de aplica√ß√£o contendo regras de neg√≥cio.
+  - MyBlog.Domain: camada central contendo as entidades, modelos de dom√≠nio da aplica√ß√£o e interfaces.
+  - MyBlog.Infra.Data: projeto de infraestrutura e persist√™ncia de dados usando EF Core e SQL Server.
   - MyBlog.Infra.Identity: projeto contendo entidades relacionadas ao ASPNET Core Identity.
-  - MyBlog.IoC: configuraÁ„o de injeÁ„o de dependÍncia da aplicaÁ„o.
-  - MyBlog.Web.Mvc: interface web da aplicaÁ„o, utilizando o padr„o MVC.
-  - MyBlog.Web.Api: API RESTful da aplicaÁ„o.
+  - MyBlog.IoC: configura√ß√£o de inje√ß√£o de depend√™ncia da aplica√ß√£o.
+  - MyBlog.Web.Mvc: interface web da aplica√ß√£o, utilizando o padr√£o MVC.
+  - MyBlog.Web.Api: API RESTful da aplica√ß√£o.
 	
-- README.md: Arquivo de DocumentaÁ„o do Projeto
-- FEEDBACK.md: Arquivo para ConsolidaÁ„o dos Feedbacks
-- .gitignore: Arquivo de IgnoraÁ„o do Git
+- README.md: Arquivo de Documenta√ß√£o do Projeto
+- FEEDBACK.md: Arquivo para Consolida√ß√£o dos Feedbacks
+- .gitignore: Arquivo de Ignora√ß√£o do Git
 - .gitattributes: Atributos do Git
-- .editorconfig: PreferÍncias de Estilo de CÛdigo
+- .editorconfig: Prefer√™ncias de Estilo de C√≥digo
 
 ## **5. Funcionalidades Implementadas**
 
-- **CRUD para Posts e Coment·rios:** Permite criar, editar, visualizar e excluir posts e coment·rios.
-- **AutenticaÁ„o e AutorizaÁ„o:** DiferenciaÁ„o entre usu·rios comuns e administradores.
-- **API RESTful:** ExposiÁ„o de endpoints para operaÁıes CRUD via API.
-- **DocumentaÁ„o da API:** DocumentaÁ„o autom·tica dos endpoints da API utilizando Swagger.
+- **CRUD para Posts e Coment√°rios:** Permite criar, editar, visualizar e excluir posts e coment√°rios.
+- **Autentica√ß√£o e Autoriza√ß√£o:** Diferencia√ß√£o entre usu√°rios comuns e administradores.
+- **API RESTful:** Exposi√ß√£o de endpoints para opera√ß√µes CRUD via API.
+- **Documenta√ß√£o da API:** Documenta√ß√£o autom√°tica dos endpoints da API utilizando Swagger.
 
 ## **6. Como Executar o Projeto**
 ## **6. Como Executar o Projeto**
 
-### **PrÈ-requisitos**
+### **Pr√©-requisitos**
 
 - .NET SDK 8.0 ou superior
 - SQL Server
-- Visual Studio 2022 ou superior (ou qualquer IDE de sua preferÍncia)
+- Visual Studio 2022 ou superior (ou qualquer IDE de sua prefer√™ncia)
 - Git
 
-### **Passos para ExecuÁ„o**
+### **Passos para Execu√ß√£o**
 
-1. **Clone o RepositÛrio:**
+1. **Clone o Reposit√≥rio:**
    - `git clone https://github.com/jonataspc/MyBlog.git`
    - `cd MyBlog`
 
-2. **ConfiguraÁ„o do Banco de Dados:**
-   - No arquivo `\src\MyBlog.Web.Mvc\appsettings.json`, configure a string de conex„o do SQL Server.
-   - Rode o projeto para que a configuraÁ„o do Seed crie o banco e popule com os dados b·sicos
+2. **Configura√ß√£o do Banco de Dados:**
+   - No arquivo `\src\MyBlog.Web.Mvc\appsettings.json`, configure a string de conex√£o do SQL Server.
+   - Rode o projeto para que a configura√ß√£o do Seed crie o banco e popule com os dados b√°sicos
 
-3. **Executar a AplicaÁ„o MVC:**
+3. **Executar a Aplica√ß√£o MVC:**
    - `cd src\MyBlog.Web.Mvc`
    - `dotnet run --launch-profile "https"`
-   - Acesse a aplicaÁ„o em: https://localhost:7160
+   - Acesse a aplica√ß√£o em: https://localhost:7160
 
 4. **Executar a API:**
    - `cd src\MyBlog.Web.Api`
    - `dotnet run --launch-profile "https"`
-   - Acesse a documentaÁ„o da API em: https://localhost:7161/swagger
+   - Acesse a documenta√ß√£o da API em: https://localhost:7161/swagger
 
-## **7. InstruÁıes de ConfiguraÁ„o**
+## **7. Instru√ß√µes de Configura√ß√£o**
 
-- **JWT para API:** As chaves de configuraÁ„o do JWT est„o no `\src\MyBlog.Web.Mvc\appsettings.json`.
-- **MigraÁıes do Banco de Dados:** As migraÁıes s„o gerenciadas pelo Entity Framework Core. N„o È necess·rio aplicar devido a configuraÁ„o do Seed de dados.
-- **Credenciais do usu·rio admin criado por padr„o:** E-mail: `admin@admin.com`, senha: `Admin123!`
+- **JWT para API:** As chaves de configura√ß√£o do JWT est√£o no `\src\MyBlog.Web.Mvc\appsettings.json`.
+- **Migra√ß√µes do Banco de Dados:** As migra√ß√µes s√£o gerenciadas pelo Entity Framework Core. N√£o √© necess√°rio aplicar devido a configura√ß√£o do Seed de dados.
+- **Credenciais do usu√°rio admin criado por padr√£o:** E-mail: `admin@admin.com`, senha: `Admin123!`
 
-## **8. DocumentaÁ„o da API**
+## **8. Documenta√ß√£o da API**
 
-A documentaÁ„o da API est· disponÌvel atravÈs do Swagger. ApÛs iniciar a API, acesse a documentaÁ„o em:
+A documenta√ß√£o da API est√° dispon√≠vel atrav√©s do Swagger. Ap√≥s iniciar a API, acesse a documenta√ß√£o em:
 
 https://localhost:7161/swagger
 
-## **9. AvaliaÁ„o**
+## **9. Avalia√ß√£o**
 
-- Este projeto È parte de um curso acadÍmico e n„o aceita contribuiÁıes externas. 
-- Para feedbacks ou d˙vidas utilize o recurso de Issues
-- O arquivo `FEEDBACK.md` È um resumo das avaliaÁıes do instrutor e dever· ser modificado apenas por ele.
+- Este projeto √© parte de um curso acad√™mico e n√£o aceita contribui√ß√µes externas. 
+- Para feedbacks ou d√∫vidas utilize o recurso de Issues
+- O arquivo `FEEDBACK.md` √© um resumo das avalia√ß√µes do instrutor e dever√° ser modificado apenas por ele.
