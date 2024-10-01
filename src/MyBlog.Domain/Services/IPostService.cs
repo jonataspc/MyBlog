@@ -16,7 +16,7 @@ namespace MyBlog.Domain.Services
 
         Task UpdateAsync(Post post);
 
-        Task RemoveAsync(Guid id, Guid userId);
+        Task RemoveAsync(Guid id);
 
         Task IncrementViewsAsync(Guid value);
 

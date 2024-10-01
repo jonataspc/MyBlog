@@ -6,7 +6,7 @@ namespace MyBlog.Domain.Services
     {
         bool AllowDelete(Guid ownerUserId);
 
-        Task RemoveAsync(Guid id, Guid userId);
+        Task RemoveAsync(Guid id);
 
         Task<Comment?> GetByIdAsync(Guid id);
 

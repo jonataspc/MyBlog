@@ -23,13 +23,13 @@ namespace MyBlog.Application.Services
             return await commentRepository.GetAsync(id);
         }
 
-        public async Task RemoveAsync(Guid id, Guid userId)
+        public async Task RemoveAsync(Guid id)
         {
             var comment = await commentRepository.GetAsync(id) ?? throw new ArgumentException("Comentário não existente");
 
             if (!AllowDelete(comment.Post.Author.UserId))
             {
-                throw new BusinessException("Usuário não autorizado");
+                throw new NotAllowedOperationException("Usuário não autorizado");
             }
 
             comment.IsActive = false;

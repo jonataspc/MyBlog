@@ -68,13 +68,13 @@ namespace MyBlog.Application.Services
             await postRepository.UnitOfWork.CommitAsync();
         }
 
-        public async Task RemoveAsync(Guid id, Guid userId)
+        public async Task RemoveAsync(Guid id)
         {
             var existingPost = await postRepository.GetAsync(id) ?? throw new ArgumentException("Post não existente");
 
             if (!AllowEditOrDelete(existingPost.Author.UserId))
             {
-                throw new BusinessException("Usuário não autorizado");
+                throw new NotAllowedOperationException("Usuário não autorizado");
             }
 
             existingPost.IsActive = false;
@@ -90,6 +90,11 @@ namespace MyBlog.Application.Services
         public async Task UpdateAsync(Post post)
         {
             var existingPost = await postRepository.GetAsync(post.Id) ?? throw new ArgumentException("Post não existente");
+
+            if (!AllowEditOrDelete(existingPost.Author.UserId))
+            {
+                throw new NotAllowedOperationException("Usuário não autorizado");
+            }
 
             existingPost.Title = post.Title;
             existingPost.Summary = post.Summary;

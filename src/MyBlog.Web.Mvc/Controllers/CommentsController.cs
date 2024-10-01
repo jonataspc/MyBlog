@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyBlog.Domain.Entities;
+using MyBlog.Domain.Exceptions;
 using MyBlog.Domain.Services;
 using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
@@ -7,7 +8,10 @@ using MyBlog.Web.Mvc.Models;
 namespace MyBlog.Web.Mvc.Controllers
 {
     [Route("comentarios")]
-    public class CommentsController(IAppIdentityUser appIdentityUser, ICommentService commentService) : AppControllerBase
+    public class CommentsController(
+        IAppIdentityUser appIdentityUser,
+        ICommentService commentService,
+        ILogger<CommentsController> logger) : AppControllerBase
     {
         [HttpPost("novo")]
         [ValidateAntiForgeryToken]
@@ -61,7 +65,16 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await commentService.RemoveAsync(id, appIdentityUser.GetUserId());
+                try
+                {
+                    await commentService.RemoveAsync(id);
+                }
+                catch (NotAllowedOperationException e)
+                {
+                    logger.LogError(e, e.Message);
+                    return Forbid();
+                }
+
                 return RedirectToAction(nameof(View), "Posts", new { id = postId });
             }
             return RedirectToAction("Index", "Posts");
