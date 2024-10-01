@@ -12,7 +12,6 @@ namespace MyBlog.Web.Mvc.Controllers
     [Route("posts")]
     public class PostsController(IAppIdentityUser appIdentityUser, IPostService postService, IAuthorService authorService, IConfiguration configuration) : AppControllerBase
     {
-
         [Route("{pageNumber:int?}")]
         [AllowAnonymous]
         public async Task<IActionResult> Index([Range(1, int.MaxValue)] int? pageNumber)
@@ -122,7 +121,7 @@ namespace MyBlog.Web.Mvc.Controllers
 
             if (!postService.AllowEditOrDelete(post.Author.UserId))
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             ViewBag.Id = id;
@@ -144,7 +143,7 @@ namespace MyBlog.Web.Mvc.Controllers
 
                 if (!postService.AllowEditOrDelete(originalPost!.Author.UserId))
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 await postService.UpdateAsync(post.Adapt<Post>());
@@ -171,7 +170,7 @@ namespace MyBlog.Web.Mvc.Controllers
 
             if (!postService.AllowEditOrDelete(post.Author.UserId))
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             return View(nameof(Delete), post);
@@ -187,7 +186,7 @@ namespace MyBlog.Web.Mvc.Controllers
 
                 if (!postService.AllowEditOrDelete(originalPost!.Author.UserId))
                 {
-                    return Unauthorized();
+                    return Forbid();
                 }
 
                 await postService.RemoveAsync(id, appIdentityUser.GetUserId());
