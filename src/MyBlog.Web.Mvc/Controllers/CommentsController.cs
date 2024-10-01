@@ -48,7 +48,7 @@ namespace MyBlog.Web.Mvc.Controllers
 
             if (!commentService.AllowDelete(comment.Post.Author.UserId))
             {
-                return Unauthorized();
+                return Forbid();
             }
 
             ViewBag.PostId = postId;
