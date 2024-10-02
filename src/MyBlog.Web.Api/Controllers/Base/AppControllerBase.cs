@@ -5,7 +5,7 @@ namespace MyBlog.Web.Api.Controllers.Base
 {
     [ApiController]
     [Authorize]
-    public abstract class AppControleBase : ControllerBase
+    public abstract class AppControllerBase : ControllerBase
     {
     }
 }

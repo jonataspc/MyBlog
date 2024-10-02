@@ -54,6 +54,7 @@ namespace MyBlog.Infra.Data.Repositories
 
         public async Task<IEnumerable<Post>> SearchByTermAsync(string term)
         {
+            // TODO: Implement full-text search
             return await GetBaseQuery(p => p.Content.Contains(term) || p.Title.Contains(term) || p.Summary.Contains(term))
                         .ToListAsync();
         }

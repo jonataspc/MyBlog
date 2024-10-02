@@ -16,7 +16,7 @@ namespace MyBlog.Web.Api.Controllers
         IPostService postService,
         ICommentService commentService,
         ILogger<PostsController> logger,
-        IConfiguration configuration) : AppControleBase
+        IConfiguration configuration) : AppControllerBase
     {
         [HttpGet]
         [AllowAnonymous]

@@ -8,7 +8,7 @@ using MyBlog.Web.Api.Services;
 namespace MyBlog.Web.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class AuthenticationController(IWebApiUserService webApiUserService, ITokenService tokenService) : AppControleBase
+    public class AuthenticationController(IWebApiUserService webApiUserService, ITokenService tokenService) : AppControllerBase
     {
         [HttpPost("login")]
         [AllowAnonymous]
