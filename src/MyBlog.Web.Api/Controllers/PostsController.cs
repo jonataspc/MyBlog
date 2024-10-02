@@ -56,10 +56,16 @@ namespace MyBlog.Web.Api.Controllers
 
         [HttpGet("{postId:guid}/comments", Name = nameof(GetPostComments))]
         [AllowAnonymous]
-        public async Task<Ok<IEnumerable<CommentResponseViewModel>>> GetPostComments(Guid postId)
+        public async Task<Results<Ok<IEnumerable<CommentResponseViewModel>>, NotFound>> GetPostComments(Guid postId)
         {
-            var comments = (await postService.GetByIdAsync(postId))?.Comments;
-            return TypedResults.Ok(comments.Adapt<IEnumerable<CommentResponseViewModel>>());
+            var post = await postService.GetByIdAsync(postId);
+
+            if (post is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            return TypedResults.Ok(post.Comments.Adapt<IEnumerable<CommentResponseViewModel>>());
         }
 
         [HttpGet("{postId:guid}/comments/{commentId:guid}", Name = nameof(GetCommentById))]
