@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.JsonWebTokens;
 using MyBlog.Domain.Services;
+using MyBlog.Domain.StaticValues;
 using System.Security.Claims;
 
 namespace MyBlog.Infra.Identity.Services
@@ -59,7 +60,7 @@ namespace MyBlog.Infra.Identity.Services
 
         public bool IsAdmin()
         {
-            return IsInRole("Admin");
+            return IsInRole(AccessRoles.Admin);
         }
 
         public string? GetLocalIpAddress()

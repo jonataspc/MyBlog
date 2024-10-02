@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBlog.Domain.Entities;
+using MyBlog.Domain.StaticValues;
 using MyBlog.Infra.Data.Context;
 using MyBlog.Infra.Identity.Models;
 
@@ -95,7 +96,7 @@ namespace MyBlog.Infra.Data.Helpers
 
         private static async Task SeedUsersAsync(MyBlogDbContext context)
         {
-            if (await context.Users.CountAsync() > 1)
+            if (await context.Users.CountAsync() > 2)
             {
                 return;
             }
@@ -152,9 +153,9 @@ namespace MyBlog.Infra.Data.Helpers
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            if (!await roleManager.RoleExistsAsync("Admin"))
+            if (!await roleManager.RoleExistsAsync(AccessRoles.Admin))
             {
-                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole(AccessRoles.Admin));
             }
 
             if (await userManager.Users.AnyAsync())
@@ -162,20 +163,49 @@ namespace MyBlog.Infra.Data.Helpers
                 return;
             }
 
-            var adminUser = new ApplicationUser
+            await AddAdminUser(context, userManager);
+            await AddOrdinaryUser(context, userManager);
+            await context.SaveChangesAsync();
+        }
+
+        private static async Task AddOrdinaryUser(MyBlogDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            var ordinaryUser = new ApplicationUser
             {
-                UserName = "admin@admin.com",
-                Email = "admin@admin.com",
-                FullName = "Default Admin User"
+                UserName = DefaultUserCredentials.OrdinaryEmail,
+                Email = DefaultUserCredentials.OrdinaryEmail,
+                FullName = DefaultUserCredentials.OrdinaryUserName
             };
 
-            var password = $"Admin123!";
-            var result = await userManager.CreateAsync(adminUser, password);
+            var result = await userManager.CreateAsync(ordinaryUser, DefaultUserCredentials.OrdinaryPassword);
+
+            if (result.Succeeded)
+            {
+                await userManager.ConfirmEmailAsync(ordinaryUser, await userManager.GenerateEmailConfirmationTokenAsync(ordinaryUser));
+            }
+
+            await context.BlogUsers.AddAsync(new User
+            {
+                FullName = ordinaryUser.FullName,
+                Id = Guid.Parse(ordinaryUser.Id)
+            });
+        }
+
+        private static async Task AddAdminUser(MyBlogDbContext context, UserManager<ApplicationUser> userManager)
+        {
+            var adminUser = new ApplicationUser
+            {
+                UserName = DefaultUserCredentials.AdminEmail,
+                Email = DefaultUserCredentials.AdminEmail,
+                FullName = DefaultUserCredentials.AdminUserName
+            };
+
+            var result = await userManager.CreateAsync(adminUser, DefaultUserCredentials.AdminPassword);
 
             if (result.Succeeded)
             {
                 await userManager.ConfirmEmailAsync(adminUser, await userManager.GenerateEmailConfirmationTokenAsync(adminUser));
-                await userManager.AddToRoleAsync(adminUser, "Admin");
+                await userManager.AddToRoleAsync(adminUser, AccessRoles.Admin);
             }
 
             await context.BlogUsers.AddAsync(new User
@@ -183,8 +213,6 @@ namespace MyBlog.Infra.Data.Helpers
                 FullName = adminUser.FullName,
                 Id = Guid.Parse(adminUser.Id)
             });
-
-            await context.SaveChangesAsync();
         }
     }
 }
