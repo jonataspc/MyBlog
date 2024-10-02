@@ -50,6 +50,8 @@ A estrutura do projeto é organizada da seguinte forma:
   - MyBlog.Web.Mvc: interface web da aplicação, utilizando o padrão MVC.
   - MyBlog.Web.Api: API RESTful da aplicação.
 	
+- tests/MyBlog.Tests.Integration: testes de integração da Web API.
+	
 - README.md: Arquivo de Documentação do Projeto
 - FEEDBACK.md: Arquivo para Consolidação dos Feedbacks
 - .gitignore: Arquivo de Ignoração do Git
