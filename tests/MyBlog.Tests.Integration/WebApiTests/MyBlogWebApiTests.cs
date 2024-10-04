@@ -272,7 +272,11 @@ namespace MyBlog.Tests.Integration.WebApiTests
             // Arrange
             await LoginOrdinaryUserAsync();
             var postId = (await GetSamplePostWithCommentsAsync()).Id;
-            var newComment = new CommentRequestViewModel("This is a comment");
+            var newComment = new CommentRequestViewModel 
+            { 
+                Content = "This is a comment",
+                Id = postId,
+            };
             var requestUri = $"/api/posts/{postId}/comments";
 
             // Act
