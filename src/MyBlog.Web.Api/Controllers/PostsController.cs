@@ -39,6 +39,19 @@ namespace MyBlog.Web.Api.Controllers
             return TypedResults.Ok(response);
         }
 
+        [HttpGet("search")]
+        [AllowAnonymous]
+        public async Task<Results<Ok<IEnumerable<PostResponseViewModel>>, BadRequest<string>>> SearchPosts([FromQuery] string term)
+        {
+            if (string.IsNullOrEmpty(term))
+            {
+                return TypedResults.BadRequest("Termo de pesquisa está vazio");
+            }
+
+            var posts = await postService.SearchByTermAsync(term);
+            return TypedResults.Ok(posts.Adapt<IEnumerable<PostResponseViewModel>>());
+        }
+
         [HttpGet("{postId:guid}", Name = nameof(GetPostById))]
         [AllowAnonymous]
         public async Task<Results<Ok<PostResponseViewModel>, NotFound>> GetPostById(Guid postId)
@@ -136,6 +149,30 @@ namespace MyBlog.Web.Api.Controllers
             try
             {
                 await commentService.RemoveAsync(commentId);
+            }
+            catch (NotAllowedOperationException e)
+            {
+                logger.LogError(e, e.Message);
+                return TypedResults.Forbid();
+            }
+
+            return TypedResults.NoContent();
+        }
+
+        [HttpPut("{postId:guid}/comments/{commentId:guid}")]
+        public async Task<Results<NoContent, ForbidHttpResult, NotFound>> EditComment(Guid postId, Guid commentId, [FromBody] CommentRequestViewModel comment)
+        {
+            var existingComment = await commentService.GetByIdAsync(commentId);
+            if (existingComment is null || existingComment.PostId != postId)
+            {
+                return TypedResults.NotFound();
+            }
+
+            comment.Id = commentId;
+
+            try
+            {
+                await commentService.UpdateAsync(comment.Adapt<Comment>());
             }
             catch (NotAllowedOperationException e)
             {
