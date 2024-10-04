@@ -28,7 +28,6 @@
     <div class="form-group text-md-center">
         <form asp-action="Delete">
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" name="PostId" value="@ViewBag.PostId" />
             <input type="submit" value="Remover" class="btn btn-danger" />
             <a class="btn btn-secondary" id="cancelButton" href="#">Cancelar</a>
         </form>

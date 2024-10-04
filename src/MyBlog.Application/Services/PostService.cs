@@ -28,11 +28,6 @@ namespace MyBlog.Application.Services
             await postRepository.UnitOfWork.CommitAsync();
         }
 
-        public bool AllowEditOrDelete(Guid ownerUserId)
-        {
-            return appIdentityUser.IsAdmin() || appIdentityUser.GetUserId() == ownerUserId;
-        }
-
         public async Task<IEnumerable<Post>> GetAvailablePostsAsync()
         {
             return await postRepository.GetAvailablePostsAsync();
@@ -72,7 +67,7 @@ namespace MyBlog.Application.Services
         {
             var existingPost = await postRepository.GetAsync(id) ?? throw new ArgumentException("Post não existente");
 
-            if (!AllowEditOrDelete(existingPost.Author.UserId))
+            if (!existingPost.AllowEditOrDelete(appIdentityUser))
             {
                 throw new NotAllowedOperationException("Usuário não autorizado");
             }
@@ -91,7 +86,7 @@ namespace MyBlog.Application.Services
         {
             var existingPost = await postRepository.GetAsync(post.Id) ?? throw new ArgumentException("Post não existente");
 
-            if (!AllowEditOrDelete(existingPost.Author.UserId))
+            if (!existingPost.AllowEditOrDelete(appIdentityUser))
             {
                 throw new NotAllowedOperationException("Usuário não autorizado");
             }

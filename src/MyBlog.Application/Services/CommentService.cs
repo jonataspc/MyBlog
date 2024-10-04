@@ -13,11 +13,6 @@ namespace MyBlog.Application.Services
             await commentRepository.UnitOfWork.CommitAsync();
         }
 
-        public bool AllowDelete(Guid ownerUserId)
-        {
-            return appIdentityUser.IsAdmin() || appIdentityUser.GetUserId() == ownerUserId;
-        }
-
         public async Task<Comment?> GetByIdAsync(Guid id)
         {
             return await commentRepository.GetAsync(id);
@@ -27,13 +22,27 @@ namespace MyBlog.Application.Services
         {
             var comment = await commentRepository.GetAsync(id) ?? throw new ArgumentException("Comentário não existente");
 
-            if (!AllowDelete(comment.Post.Author.UserId))
+            if (!comment.AllowEditOrDelete(appIdentityUser))
             {
                 throw new NotAllowedOperationException("Usuário não autorizado");
             }
 
             comment.IsActive = false;
             commentRepository.Update(comment);
+            await commentRepository.UnitOfWork.CommitAsync();
+        }
+
+        public async Task UpdateAsync(Comment comment)
+        {
+            var existingComment = await commentRepository.GetAsync(comment.Id) ?? throw new ArgumentException("Comentário não existente");
+
+            if (!existingComment.AllowEditOrDelete(appIdentityUser))
+            {
+                throw new NotAllowedOperationException("Usuário não autorizado");
+            }
+
+            existingComment.Content = comment.Content;
+            commentRepository.Update(existingComment);
             await commentRepository.UnitOfWork.CommitAsync();
         }
     }

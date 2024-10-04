@@ -1,0 +1,39 @@
+﻿@model CommentViewModel
+
+<h4>Editar comentário</h4>
+
+<hr />
+<div class="row">
+    <div class="col-md-11">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <textarea asp-for="Content" class="form-control" rows="7"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group text-md-center">
+                <br />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <a class="btn btn-secondary" id="cancelButton" href="#">Cancelar</a>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <script>
+            document.getElementById("cancelButton").addEventListener("click", function () {
+                history.back();
+            });
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

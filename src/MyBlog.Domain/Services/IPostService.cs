@@ -10,8 +10,6 @@ namespace MyBlog.Domain.Services
 
         Task<IPaginatedList<Post>> GetAvailablePostsPaginatedAsync(int pageIndex, int pageSize);
 
-        bool AllowEditOrDelete(Guid ownerUserId);
-
         Task<Post?> GetByIdAsync(Guid id);
 
         Task UpdateAsync(Post post);

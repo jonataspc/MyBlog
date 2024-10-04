@@ -1,27 +1,30 @@
 ﻿@model Post
-@inject ICommentService CommentService
+@inject IAppIdentityUser appIdentityUser
 
 <h5>Comentários</h5>
 
 @await Html.PartialAsync("_NewComment", new CommentViewModel() { Content = null!, PostId = Model.Id, }, new ViewDataDictionary(this.ViewData) { { "PostId", Model.Id } })
 
 <div>
-    @if (!Model.Comments.Any()){
+    @if (!Model.Comments.Any())
+    {
         <div class="alert alert-info">Sem comentários para este post.</div>
     }
 
     @foreach (var item in Model.Comments.OrderByDescending(c => c.CreatedAt))
     {
         <p>
-            @Html.DisplayFor(modelItem => item.Content) <i>(@Html.DisplayFor(modelItem => item.User.FullName),
+            @Html.DisplayFor(modelItem => item.Content) <i>
+                (@Html.DisplayFor(modelItem => item.User.FullName),
                 <time class="timeago" datetime="@item.CreatedAt.ToString("s")">@item.CreatedAt</time>)
             </i>
 
-            @if (CommentService.AllowDelete(item.Post.Author.UserId))
+            @if (item.AllowEditOrDelete(appIdentityUser))
             {
-                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id" class="text-danger">Excluir</a>
+                <a asp-controller="Comments" asp-action="Edit" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id"><span class="badge bg-warning">Editar</span></a>
+                <a asp-controller="Comments" asp-action="Delete" asp-route-id="@item.Id" asp-route-postId="@item.Post.Id"><span class="badge bg-danger">Excluir</span></a>
             }
-            
+
         </p>
     }
 </div>

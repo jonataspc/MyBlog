@@ -1,5 +1,5 @@
 ﻿@model Post
-@inject IPostService PostService
+@inject IAppIdentityUser appIdentityUser
 <div>
 
     <h2>@Html.DisplayFor(model => model.Title)</h2>
@@ -8,7 +8,7 @@
 
     <p>@Html.DisplayFor(model => model.Content)</p>
 
-    @if (PostService.AllowEditOrDelete(Model.Author.UserId))
+    @if (Model.AllowEditOrDelete(appIdentityUser))
     {
         <div class="text-md-end">
             <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>

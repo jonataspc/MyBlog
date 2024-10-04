@@ -125,12 +125,11 @@ namespace MyBlog.Web.Mvc.Controllers
                 return NotFound();
             }
 
-            if (!postService.AllowEditOrDelete(post.Author.UserId))
+            if (!post.AllowEditOrDelete(appIdentityUser))
             {
                 return Forbid();
             }
 
-            ViewBag.Id = id;
             return View(post.Adapt<PostViewModel>());
         }
 
@@ -176,7 +175,7 @@ namespace MyBlog.Web.Mvc.Controllers
                 return NotFound();
             }
 
-            if (!postService.AllowEditOrDelete(post.Author.UserId))
+            if (!post.AllowEditOrDelete(appIdentityUser))
             {
                 return Forbid();
             }

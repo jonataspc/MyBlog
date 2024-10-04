@@ -1,4 +1,5 @@
 ﻿using MyBlog.Domain.Entities.Common;
+using MyBlog.Domain.Services;
 
 namespace MyBlog.Domain.Entities
 {
@@ -21,5 +22,11 @@ namespace MyBlog.Domain.Entities
         public virtual required Author Author { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; } = [];
+
+        public bool AllowEditOrDelete(IAppIdentityUser appIdentityUser)
+        {
+            return appIdentityUser.IsAdmin() ||
+                   appIdentityUser.GetUserId() == Author.UserId;
+        }
     }
 }

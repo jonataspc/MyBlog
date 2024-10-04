@@ -1,4 +1,5 @@
 ﻿using MyBlog.Domain.Entities.Common;
+using MyBlog.Domain.Services;
 
 namespace MyBlog.Domain.Entities
 {
@@ -15,5 +16,12 @@ namespace MyBlog.Domain.Entities
         public required Guid UserId { get; set; }
 
         public virtual required User User { get; set; }
+
+        public bool AllowEditOrDelete(IAppIdentityUser appIdentityUser)
+        {
+            return appIdentityUser.IsAdmin() ||
+                   appIdentityUser.GetUserId() == Post.Author.UserId ||
+                   appIdentityUser.GetUserId() == UserId;
+        }
     }
 }
