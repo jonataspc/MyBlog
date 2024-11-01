@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using MyBlog.Infra.Identity.Models;
+using MyBlog.Core.Models;
 using MyBlog.Web.Api.Models;
 
 namespace MyBlog.Web.Api.Services

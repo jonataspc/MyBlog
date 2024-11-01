@@ -16,7 +16,7 @@ namespace MyBlog.Web.Api.Extensions
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter a valid token",
-                    Name = "Authorization", 
+                    Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     BearerFormat = "JWT",
                     Scheme = "Bearer"

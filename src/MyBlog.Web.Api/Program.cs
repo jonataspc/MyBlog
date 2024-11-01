@@ -1,9 +1,9 @@
-using MyBlog.Infra.Data.Extensions;
-using MyBlog.IoC;
+using MyBlog.Core.Extensions;
+using MyBlog.Core.IoC;
 using MyBlog.Web.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.RegisterDependencies(builder.Configuration);
+builder.Services.RegisterDependencies(builder.Configuration, builder.Environment);
 builder.Services.RegisterWebApiServices();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddControllers();

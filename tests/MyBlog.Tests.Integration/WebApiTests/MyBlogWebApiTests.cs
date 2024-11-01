@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using MyBlog.Domain.StaticValues;
+using MyBlog.Core.StaticValues;
 using MyBlog.Web.Api.Models;
 using System.Net;
 using System.Net.Http.Headers;
@@ -272,8 +272,8 @@ namespace MyBlog.Tests.Integration.WebApiTests
             // Arrange
             await LoginOrdinaryUserAsync();
             var postId = (await GetSamplePostWithCommentsAsync()).Id;
-            var newComment = new CommentRequestViewModel 
-            { 
+            var newComment = new CommentRequestViewModel
+            {
                 Content = "This is a comment",
                 Id = postId,
             };
@@ -409,6 +409,33 @@ namespace MyBlog.Tests.Integration.WebApiTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task CreateUser_ReturnsOk_ForValidModel()
+        {
+            // Arrange
+            var model = new CreateUserRequest($"user{Guid.NewGuid().ToString()}@example.com", "Password123!", "Joao Nascimento");
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/account/create", model);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task CreateUser_ReturnsBadRequest_ForInvalidModel()
+        {
+            // Arrange
+            var model = new CreateUserRequest("invalid-mail", "short", "Joao Nascimento");
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/account/create", model);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

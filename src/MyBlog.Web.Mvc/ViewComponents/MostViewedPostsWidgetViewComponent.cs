@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyBlog.Domain.Services;
+using MyBlog.Core.Services.Interfaces;
 
 namespace MyBlog.Web.Mvc.ViewComponents
 {

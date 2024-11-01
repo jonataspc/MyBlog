@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Domain.Entities;
-using MyBlog.Domain.Exceptions;
-using MyBlog.Domain.Services;
+using MyBlog.Core.Entities;
+using MyBlog.Core.Services.Interfaces;
 using MyBlog.Web.Api.Controllers.Base;
 using MyBlog.Web.Api.Models;
 
@@ -15,7 +14,6 @@ namespace MyBlog.Web.Api.Controllers
         IAppIdentityUser appIdentityUser,
         IPostService postService,
         ICommentService commentService,
-        ILogger<PostsController> logger,
         IConfiguration configuration) : AppControllerBase
     {
         [HttpGet]
@@ -123,15 +121,12 @@ namespace MyBlog.Web.Api.Controllers
                 return TypedResults.NotFound();
             }
 
-            try
+            if (!post.AllowEditOrDelete(appIdentityUser))
             {
-                await postService.RemoveAsync(postId);
-            }
-            catch (NotAllowedOperationException e)
-            {
-                logger.LogError(e, e.Message);
                 return TypedResults.Forbid();
             }
+
+            await postService.RemoveAsync(postId);
 
             return TypedResults.NoContent();
         }
@@ -146,15 +141,12 @@ namespace MyBlog.Web.Api.Controllers
                 return TypedResults.NotFound();
             }
 
-            try
+            if (!comment.AllowEditOrDelete(appIdentityUser))
             {
-                await commentService.RemoveAsync(commentId);
-            }
-            catch (NotAllowedOperationException e)
-            {
-                logger.LogError(e, e.Message);
                 return TypedResults.Forbid();
             }
+
+            await commentService.RemoveAsync(commentId);
 
             return TypedResults.NoContent();
         }
@@ -168,17 +160,13 @@ namespace MyBlog.Web.Api.Controllers
                 return TypedResults.NotFound();
             }
 
-            comment.Id = commentId;
-
-            try
+            if (!existingComment.AllowEditOrDelete(appIdentityUser))
             {
-                await commentService.UpdateAsync(comment.Adapt<Comment>());
-            }
-            catch (NotAllowedOperationException e)
-            {
-                logger.LogError(e, e.Message);
                 return TypedResults.Forbid();
             }
+
+            comment.Id = commentId;
+            await commentService.UpdateAsync(comment.Adapt<Comment>());
 
             return TypedResults.NoContent();
         }
@@ -186,22 +174,19 @@ namespace MyBlog.Web.Api.Controllers
         [HttpPut("{postId:guid}")]
         public async Task<Results<NoContent, ForbidHttpResult, NotFound>> EditPost(Guid postId, [FromBody] PostRequestViewModel editPost)
         {
-            if (await postService.GetByIdAsync(postId) is null)
+            var post = await postService.GetByIdAsync(postId);
+            if (post is null)
             {
                 return TypedResults.NotFound();
             }
 
-            editPost.Id = postId;
-
-            try
+            if (!post.AllowEditOrDelete(appIdentityUser))
             {
-                await postService.UpdateAsync(editPost.Adapt<Post>());
-            }
-            catch (NotAllowedOperationException e)
-            {
-                logger.LogError(e, e.Message);
                 return TypedResults.Forbid();
             }
+
+            editPost.Id = postId;
+            await postService.UpdateAsync(editPost.Adapt<Post>());
 
             return TypedResults.NoContent();
         }

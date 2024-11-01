@@ -1,9 +1,8 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Domain.Entities;
-using MyBlog.Domain.Exceptions;
-using MyBlog.Domain.Services;
+using MyBlog.Core.Entities;
+using MyBlog.Core.Services.Interfaces;
 using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
 using System.ComponentModel.DataAnnotations;
@@ -15,8 +14,7 @@ namespace MyBlog.Web.Mvc.Controllers
         IAppIdentityUser appIdentityUser,
         IPostService postService,
         IAuthorService authorService,
-        IConfiguration configuration,
-        ILogger<PostsController> logger) : AppControllerBase
+        IConfiguration configuration) : AppControllerBase
     {
         [Route("{pageNumber:int?}")]
         [AllowAnonymous]
@@ -139,21 +137,23 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (id != post.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             if (ModelState.IsValid)
             {
-                try
+                var currentPost = await postService.GetByIdAsync(post.Id);
+                if (currentPost is null)
                 {
-                    await postService.UpdateAsync(post.Adapt<Post>());
+                    return NotFound();
                 }
-                catch (NotAllowedOperationException e)
+
+                if (!currentPost.AllowEditOrDelete(appIdentityUser))
                 {
-                    logger.LogError(e, e.Message);
                     return Forbid();
                 }
 
+                await postService.UpdateAsync(post.Adapt<Post>());
                 return RedirectToAction(nameof(View), new { id });
             }
 
@@ -189,15 +189,18 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var currentPost = await postService.GetByIdAsync(id);
+                if (currentPost is null)
                 {
-                    await postService.RemoveAsync(id);
+                    return NotFound();
                 }
-                catch (NotAllowedOperationException e)
+
+                if (!currentPost.AllowEditOrDelete(appIdentityUser))
                 {
-                    logger.LogError(e, e.Message);
                     return Forbid();
                 }
+
+                await postService.RemoveAsync(id);
             }
             return RedirectToAction(nameof(Index));
         }
