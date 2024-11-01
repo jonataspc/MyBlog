@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using MyBlog.Domain.Entities;
+using MyBlog.Core.Entities;
 using MyBlog.Web.Api.Models;
 
 namespace MyBlog.Web.Api.Helpers

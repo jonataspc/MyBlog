@@ -1,8 +1,8 @@
-using MyBlog.Infra.Data.Extensions;
-using MyBlog.IoC;
+using MyBlog.Core.Extensions;
+using MyBlog.Core.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.RegisterDependencies(builder.Configuration);
+builder.Services.RegisterDependencies(builder.Configuration, builder.Environment);
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
 

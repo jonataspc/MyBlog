@@ -42,11 +42,7 @@ O projeto consiste em:
 A estrutura do projeto é organizada da seguinte forma:
 
 - src/
-  - MyBlog.Application: projeto de aplicação contendo regras de negócio.
-  - MyBlog.Domain: camada central contendo as entidades, modelos de domínio da aplicação e interfaces.
-  - MyBlog.Infra.Data: projeto de infraestrutura e persistência de dados usando EF Core e SQL Server.
-  - MyBlog.Infra.Identity: projeto contendo entidades relacionadas ao ASPNET Core Identity.
-  - MyBlog.IoC: configuração de injeção de dependência da aplicação.
+  - MyBlog.Core: camada central contendo as entidades, modelos de domínio da aplicação, interfaces, regras de negócio, persistência de dados e injeção de dependências.
   - MyBlog.Web.Mvc: interface web da aplicação, utilizando o padrão MVC.
   - MyBlog.Web.Api: API RESTful da aplicação.
 	

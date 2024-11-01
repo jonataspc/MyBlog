@@ -1,8 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using MyBlog.Domain.Entities;
-using MyBlog.Domain.Exceptions;
-using MyBlog.Domain.Services;
+using MyBlog.Core.Entities;
+using MyBlog.Core.Services.Interfaces;
 using MyBlog.Web.Mvc.Controllers.Base;
 using MyBlog.Web.Mvc.Models;
 
@@ -11,8 +10,7 @@ namespace MyBlog.Web.Mvc.Controllers
     [Route("comentarios")]
     public class CommentsController(
         IAppIdentityUser appIdentityUser,
-        ICommentService commentService,
-        ILogger<CommentsController> logger) : AppControllerBase
+        ICommentService commentService) : AppControllerBase
     {
         [HttpPost("novo")]
         [ValidateAntiForgeryToken]
@@ -70,15 +68,18 @@ namespace MyBlog.Web.Mvc.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                var existingComment = await commentService.GetByIdAsync(id);
+                if (existingComment is null || existingComment.PostId != postId)
                 {
-                    await commentService.UpdateAsync(comment.Adapt<Comment>());
+                    return NotFound();
                 }
-                catch (NotAllowedOperationException e)
+
+                if (!existingComment.AllowEditOrDelete(appIdentityUser))
                 {
-                    logger.LogError(e, e.Message);
                     return Forbid();
                 }
+
+                await commentService.UpdateAsync(comment.Adapt<Comment>());
 
                 return RedirectToAction(nameof(View), "Posts", new { id = postId });
             }
@@ -116,15 +117,18 @@ namespace MyBlog.Web.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
+                var existingComment = await commentService.GetByIdAsync(id);
+                if (existingComment is null || existingComment.PostId != postId)
                 {
-                    await commentService.RemoveAsync(id);
+                    return NotFound();
                 }
-                catch (NotAllowedOperationException e)
+
+                if (!existingComment.AllowEditOrDelete(appIdentityUser))
                 {
-                    logger.LogError(e, e.Message);
                     return Forbid();
                 }
+
+                await commentService.RemoveAsync(id);
 
                 return RedirectToAction(nameof(View), "Posts", new { id = postId });
             }
