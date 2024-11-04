@@ -27,6 +27,7 @@ namespace MyBlog.Core.Data.Repositories
             }
 
             return query.OrderByDescending(p => p.PublishDate)
+                        .ThenBy(p => p.Id)
                         .AsNoTracking();
         }
 
@@ -38,7 +39,7 @@ namespace MyBlog.Core.Data.Repositories
         public async Task<Post?> GetPostByIdWithRelatedEntitiesAsync(Guid id)
         {
             return await _dbContext.Posts
-                .Include(p => p.Comments.Where(c => c.IsActive).OrderByDescending(c => c.CreatedAt))
+                .Include(p => p.Comments.Where(c => c.IsActive).OrderByDescending(c => c.CreatedAt).ThenBy(c => c.Id))
                 .ThenInclude(a => a.User)
                 .Include(p => p.Author)
                 .ThenInclude(a => a.User)
@@ -66,6 +67,7 @@ namespace MyBlog.Core.Data.Repositories
                            .ThenInclude(c => c.User)
                            .Where(p => p.PublishDate <= DateTime.Now)
                            .OrderByDescending(p => p.ViewCount)
+                           .ThenBy(p => p.Id)
                            .Take(numberOfPosts)
                            .AsNoTracking()
                            .ToListAsync();
