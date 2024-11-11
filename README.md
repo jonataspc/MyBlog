@@ -28,7 +28,7 @@ O projeto consiste em:
   - ASP.NET Core MVC
   - ASP.NET Core Web API
   - Entity Framework Core
-- **Banco de Dados:** SQL Server
+- **Banco de Dados:** SQL Server ou SQLite
 - **Autenticação e Autorização:**
   - ASP.NET Core Identity
   - JWT (JSON Web Token) para autenticação na API
@@ -60,14 +60,18 @@ A estrutura do projeto é organizada da seguinte forma:
 - **Autenticação e Autorização:** Diferenciação entre usuários comuns e administradores.
 - **API RESTful:** Exposição de endpoints para operações CRUD via API.
 - **Documentação da API:** Documentação automática dos endpoints da API utilizando Swagger.
+- Template utilizada no projeto MVC: https://startbootstrap.com/template/blog-home  
+- Uso da lib [Timeago](https://timeago.yarp.com/) para apresentação de data/hora no front-end. 
+- Contador de views nos posts.
+- Feature de pesquisa de posts por palavra-chave. 
+- Paginação de posts na home e também na WebAPI.
 
-## **6. Como Executar o Projeto**
+
 ## **6. Como Executar o Projeto**
 
 ### **Pré-requisitos**
 
 - .NET SDK 8.0 ou superior
-- SQL Server
 - Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 - Git
 
@@ -78,8 +82,9 @@ A estrutura do projeto é organizada da seguinte forma:
    - `cd MyBlog`
 
 2. **Configuração do Banco de Dados:**
-   - No arquivo `\src\MyBlog.Web.Mvc\appsettings.json`, configure a string de conexão do SQL Server.
+   - Para execução em ambiente de desenvolvimento será utilizado SQLite (string de conexão consta em `appsettings.Development.json`). Para ambiente de produção será utilizado SQL Server (string de conexão consta em `appsettings.Production.json`)
    - Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos
+
 
 3. **Executar a Aplicação MVC:**
    - `cd src\MyBlog.Web.Mvc`
