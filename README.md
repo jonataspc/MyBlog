@@ -93,7 +93,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 ## **7. Instruções de Configuração**
 
-- **JWT para API:** As chaves de configuração do JWT estão no `\src\MyBlog.Web.Mvc\appsettings.json`.
+- **JWT para API:** As chaves de configuração do JWT estão no `\src\MyBlog.Web.Api\appsettings.json`.
 - **Migrações do Banco de Dados:** As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar manualmente devido a configuração do seed de dados. Os dados de teste (usuários, autores, posts e comentários) são populados através da lib [Bogus](https://github.com/bchavez/Bogus).
 - **Credenciais do usuário admin criado por padrão:** E-mail: `admin@admin.com`, senha: `Admin123!`
 
